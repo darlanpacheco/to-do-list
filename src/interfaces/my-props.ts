@@ -1,4 +1,4 @@
-export interface MyProps {
+export interface TodoInterface {
     className?: string;
     children?: string;
 }
