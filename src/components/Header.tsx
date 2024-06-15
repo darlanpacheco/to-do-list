@@ -16,12 +16,14 @@ const Header: React.FunctionComponent<HeaderProps> = ({
     return (
         <header
             className={
-                "flex items-center justify-center" + " " + (className ?? "")
+                "flex items-center justify-center pt-10" +
+                " " +
+                (className ?? "")
             }
         >
             <input
                 type="text"
-                className="p-2 mr-9 rounded-lg bg-[#1E1E1E] border-[1px] border-[#454545] focus:outline-none"
+                className="p-2 mr-8 w-64 rounded-lg bg-[#1E1E1E] border-[1px] border-[#454545] focus:outline-none"
                 onChange={(e) => setInputValue(e.target.value)}
             />
             <button

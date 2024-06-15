@@ -5,7 +5,7 @@ const Todo: React.FunctionComponent<MyProps> = ({ className, children }) => {
     return (
         <li
             className={
-                "h-12 m-2 w-[375px] rounded-lg bg-[#363636] flex justify-between" +
+                "h-12 m-2 w-[400px] rounded-lg bg-[#363636] flex justify-between" +
                 " " +
                 (className ?? "")
             }
@@ -15,7 +15,9 @@ const Todo: React.FunctionComponent<MyProps> = ({ className, children }) => {
                     className="hover:cursor-pointer appearance-none p-4 bg-white border-[#454545] rounded-lg ml-2 checked:bg-green-300"
                     type="checkbox"
                 />
-                <span className="flex items-center p-3">{children}</span>
+                <span className="p-3 text-[13px] truncate max-w-64">
+                    {children}
+                </span>
             </div>
             <div className="flex items-center">
                 <IonIcon
