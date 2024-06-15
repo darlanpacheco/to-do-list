@@ -12,11 +12,13 @@ const App: React.FunctionComponent = (): React.ReactNode => {
                 setTodos={setTodos}
                 className="row-span-1"
             ></Header>
-            <ul className="row-span-6 flex flex-col items-center py-10 pb-10">
-                {todos.map((value, index) => (
-                    <Todo key={index}>{value}</Todo>
-                ))}
-            </ul>
+            <section className="row-span-6 flex flex-col items-center py-10 pb-10">
+                <ul>
+                    {todos.map((value, index) => (
+                        <Todo key={index}>{value}</Todo>
+                    ))}
+                </ul>
+            </section>
         </main>
     );
 };
