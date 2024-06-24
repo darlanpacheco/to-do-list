@@ -18,14 +18,14 @@ const Todo: React.FunctionComponent<TodoInterface> = ({
     return (
         <li
             className={
-                "h-12 m-2 w-[400px] rounded-lg bg-[#363636] flex justify-between" +
+                "h-12 m-2 w-[400px] bg-tertiary dark:bg-tertiary-dark rounded-lg shadow flex justify-between" +
                 " " +
                 (className ?? "")
             }
         >
             <div className="flex items-center">
                 <input
-                    className="hover:cursor-pointer appearance-none p-4 bg-white border-[#454545] rounded-lg ml-2 checked:bg-green-300"
+                    className="hover:cursor-pointer bg-white dark:bg-quaternary appearance-none p-4 rounded-lg ml-2 checked:bg-green-300 dark:checked:bg-green-700"
                     type="checkbox"
                 />
                 <span className="p-3 text-[13px] truncate max-w-64">
@@ -37,14 +37,14 @@ const Todo: React.FunctionComponent<TodoInterface> = ({
                     onClick={(event) => {
                         editTodo(event);
                     }}
-                    className="hover:cursor-pointer hover:bg-[#454545] hover:rounded-lg p-4 border-l-[1px] border-[#454545] "
+                    className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
                     name="pencil"
                 ></IonIcon>
                 <IonIcon
                     onClick={(event) => {
                         deleteTodo(event);
                     }}
-                    className="hover:cursor-pointer hover:bg-[#454545] hover:rounded-lg p-4"
+                    className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
                     name="trash-bin"
                 ></IonIcon>
             </div>

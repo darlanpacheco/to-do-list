@@ -6,7 +6,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     const [todos, setTodos] = useState<string[]>([]);
 
     return (
-        <main className="bg-[#242424] border-[1px] border-[#454545] rounded-lg flex flex-col w-[500px] min-h-[550px] mt-[15vh] mb-[15vh]">
+        <main className="bg-secondary dark:bg-secondary-dark lg:shadow-lg rounded-lg flex flex-col w-[500px] min-h-[550px] mt-[15vh] mb-[15vh]">
             <Header
                 todos={todos}
                 setTodos={setTodos}

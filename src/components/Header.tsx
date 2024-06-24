@@ -1,4 +1,3 @@
-import IonIcon from "@reacticons/ionicons";
 import { useState } from "react";
 import { HeaderProps } from "../interfaces/my-props";
 
@@ -23,14 +22,14 @@ const Header: React.FunctionComponent<HeaderProps> = ({
         >
             <input
                 type="text"
-                className="p-2 mr-8 w-64 rounded-lg bg-[#1E1E1E] border-[1px] border-[#454545] focus:outline-none"
+                className="bg-tertiary dark:bg-tertiary-dark p-2 w-64 rounded-l-lg shadow focus:outline-none"
                 onChange={(e) => setInputValue(e.target.value)}
             />
             <button
-                className="bg-green-300 p-2 rounded-full flex items-center justify-center text-black"
+                className="bg-blue-300 hover:bg-blue-200 dark:bg-blue-500 dark:hover:bg-blue-400 p-2 rounded-r-lg shadow"
                 onClick={addTodo}
             >
-                <IonIcon name="add" size="large"></IonIcon>
+                Add
             </button>
         </header>
     );
