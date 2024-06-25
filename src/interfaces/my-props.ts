@@ -1,10 +1,10 @@
 export interface TodoInterface {
-    className?: string;
-    children?: string;
+  className?: string;
+  children?: string;
 }
 
 export interface HeaderProps {
-    todos: string[];
-    setTodos: (newTodo: string[]) => void;
-    className?: string;
+  todos: string[];
+  setTodos: (newTodo: string[]) => void;
+  className?: string;
 }
