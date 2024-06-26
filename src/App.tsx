@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Todo from "./components/Todo";
 
 // THEME SWITCH BUTTON
+// TODOS SAVE
 
 const App: React.FunctionComponent = (): React.ReactNode => {
   const [todos, setTodos] = useState<string[]>([]);

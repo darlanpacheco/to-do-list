@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { HeaderProps } from "../interfaces/my-props";
 
 const Header: React.FunctionComponent<HeaderProps> = ({
@@ -6,11 +6,12 @@ const Header: React.FunctionComponent<HeaderProps> = ({
   todos,
   setTodos,
 }): React.ReactNode => {
-  const [inputValue, setInputValue] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const addTodo = (): void => {
-    if (inputValue) {
-      setTodos([...todos, inputValue]);
+    if (inputRef.current?.value) {
+      setTodos([...todos, inputRef.current.value]);
+      inputRef.current.value = "";
     }
   };
 
@@ -29,9 +30,9 @@ const Header: React.FunctionComponent<HeaderProps> = ({
       }
     >
       <input
+        ref={inputRef}
         type="text"
         className="bg-tertiary w-[50vw] max-w-60 min-w-[150px] dark:bg-tertiary-dark p-2 rounded-l-lg shadow focus:outline-none"
-        onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
       <button
