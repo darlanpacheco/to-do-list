@@ -2,6 +2,8 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Todo from "./components/Todo";
 
+// THEME SWITCH BUTTON
+
 const App: React.FunctionComponent = (): React.ReactNode => {
   const [todos, setTodos] = useState<string[]>([]);
 

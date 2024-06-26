@@ -9,7 +9,9 @@ const Header: React.FunctionComponent<HeaderProps> = ({
   const [inputValue, setInputValue] = useState<string>("");
 
   const addTodo = (): void => {
-    setTodos([...todos, inputValue]);
+    if (inputValue) {
+      setTodos([...todos, inputValue]);
+    }
   };
 
   const handleKeyDown = (
@@ -28,7 +30,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({
     >
       <input
         type="text"
-        className="bg-tertiary w-[35vw] min-w-[100px] dark:bg-tertiary-dark p-2 sm:w-64 rounded-l-lg shadow focus:outline-none"
+        className="bg-tertiary w-[50vw] max-w-60 min-w-[150px] dark:bg-tertiary-dark p-2 rounded-l-lg shadow focus:outline-none"
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
