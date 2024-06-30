@@ -10,7 +10,6 @@ const ThemeButton: React.FunctionComponent = (): React.ReactNode => {
   const themeToggle = () => {
     document.body.parentElement?.classList.toggle("dark", !theme);
     setTheme(!theme);
-    console.log(theme);
   };
 
   return (
