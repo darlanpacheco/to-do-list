@@ -66,7 +66,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
   return (
     <>
       <ThemeButton></ThemeButton>
-      <main className="bg-secondary dark:bg-secondary-dark lg:shadow-lg rounded-lg flex flex-col w-[500px] min-h-[550px] mt-[15vh] mb-[15vh]">
+      <main className="bg-secondary dark:bg-secondary-dark lg:shadow-lg rounded-lg flex flex-col w-[500px] min-h-[560px] mt-[15vh] mb-[15vh]">
         <Header addTodo={addTodo} className="row-span-1"></Header>
         <section className="row-span-6 flex flex-col items-center py-10 pb-10">
           <ul>
