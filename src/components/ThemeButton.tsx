@@ -22,7 +22,7 @@ const ThemeButton: React.FunctionComponent = (): React.ReactNode => {
   return (
     <button
       onClick={themeToggle}
-      className="absolute dark:bg-quaternary dark:hover:bg-[#4E4E4E] bg-white w-10 h-10 right-[15px] top-[15px] flex items-center justify-center rounded-full"
+      className="fixed dark:bg-quaternary dark:hover:bg-[#4E4E4E] bg-white w-10 h-10 right-[15px] top-[15px] flex items-center justify-center rounded-full"
     >
       {!theme ? (
         <IonIcon name="moon"></IonIcon>
