@@ -3,25 +3,40 @@ import Header from "./components/Header";
 import ThemeButton from "./components/ThemeButton";
 import IonIcon from "@reacticons/ionicons";
 
-// CHECKED SAVE
-// THEME SAVE
 // DAILY CHECKED RELOAD TODOS
 
 const App: React.FunctionComponent = (): React.ReactNode => {
-  const storedTodos = localStorage.getItem("todosStorage");
-  const initialTodos = storedTodos ? JSON.parse(storedTodos) : [];
-  const [todos, setTodos] = useState<string[]>(initialTodos);
+  const [todosText, setTodosText] = useState<string[]>(
+    JSON.parse(localStorage.getItem("todosStorage") || "[]")
+  );
+  const [todosCheckboxes, setTodosCheckboxes] = useState<boolean[]>(
+    JSON.parse(localStorage.getItem("checkboxesStorage") || "[]")
+  );
 
   useEffect(() => {
-    localStorage.setItem("todosStorage", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("todosStorage", JSON.stringify(todosText));
+    localStorage.setItem("checkboxesStorage", JSON.stringify(todosCheckboxes));
+  }, [todosText, todosCheckboxes]);
+
+  const updateCheckboxes = () => {
+    const tempCheckboxes: boolean[] = [];
+    const checkboxElements = document.querySelectorAll(
+      'input[type="checkbox"]'
+    );
+    checkboxElements.forEach((checkbox) => {
+      if (checkbox instanceof HTMLInputElement) {
+        tempCheckboxes.push(checkbox.checked);
+      }
+    });
+    setTodosCheckboxes(tempCheckboxes);
+  };
 
   const addTodo = () => {
     const input: HTMLInputElement = document.querySelector(
       "input#main-input"
     ) as HTMLInputElement;
     if (input.value) {
-      setTodos([...todos, input.value]);
+      setTodosText([...todosText, input.value]);
       input.value = "";
     }
   };
@@ -48,9 +63,9 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     const contentDiv = event.currentTarget.parentElement?.parentElement
       ?.childNodes[0].childNodes[1] as HTMLDivElement;
 
-    const tempTodos = [...todos];
+    const tempTodos = [...todosText];
     tempTodos[index] = contentInput.value;
-    setTodos(tempTodos);
+    setTodosText(tempTodos);
 
     contentDiv.innerHTML = contentInput.value;
     contentDiv.classList.remove("hidden");
@@ -58,9 +73,9 @@ const App: React.FunctionComponent = (): React.ReactNode => {
   };
 
   const deleteTodo = (index: number) => {
-    const tempTodos = [...todos];
+    const tempTodos = [...todosText];
     tempTodos.splice(index, 1);
-    setTodos(tempTodos);
+    setTodosText(tempTodos);
   };
 
   return (
@@ -70,7 +85,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
         <Header addTodo={addTodo} className="row-span-1"></Header>
         <section className="row-span-6 flex flex-col items-center py-10 pb-10">
           <ul>
-            {todos.map((value, index) => (
+            {todosText.map((value, index) => (
               <li
                 key={index}
                 className={
@@ -79,8 +94,11 @@ const App: React.FunctionComponent = (): React.ReactNode => {
               >
                 <div className="flex items-center w-[100%]">
                   <input
+                    key={index}
                     className="hover:cursor-pointer bg-white dark:bg-quaternary appearance-none p-4 rounded-lg ml-2 checked:bg-green-300 dark:checked:bg-[#95CC95]"
                     type="checkbox"
+                    defaultChecked={todosCheckboxes[index]}
+                    onClick={updateCheckboxes}
                   />
                   <div className="p-3 text-[13px] focus:outline-none bg-tertiary dark:bg-tertiary-dark w-[100%]">
                     {value}
