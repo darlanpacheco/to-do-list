@@ -1,19 +1,44 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import ThemeButton from "./components/ThemeButton";
-import IonIcon from "@reacticons/ionicons";
-
-// DAILY CHECKED RELOAD TODOS
+import Todo from "./components/Todo";
 
 const App: React.FunctionComponent = (): React.ReactNode => {
   const [todosText, setTodosText] = useState<string[]>(
     JSON.parse(localStorage.getItem("todosStorage") || "[]")
   );
+
+  const currentDate: number[] = [
+    new Date().getDay(),
+    new Date().getMonth(),
+    new Date().getFullYear(),
+  ];
+  const prevDate: number[] = JSON.parse(
+    localStorage.getItem("date") ?? "[0, 0, 0]"
+  );
+  const currentBiggerThanPrev = () => {
+    if (currentDate[0] < prevDate[0]) {
+      return true;
+    } else {
+      if (currentDate[1] < prevDate[1]) {
+        return true;
+      } else {
+        if (currentDate[2] < prevDate[2]) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  };
   const [todosCheckboxes, setTodosCheckboxes] = useState<boolean[]>(
-    JSON.parse(localStorage.getItem("checkboxesStorage") || "[]")
+    currentBiggerThanPrev()
+      ? new Array(todosText.length).fill(false)
+      : JSON.parse(localStorage.getItem("checkboxesStorage") || "[]")
   );
 
   useEffect(() => {
+    localStorage.setItem("date", JSON.stringify(currentDate));
     localStorage.setItem("todosStorage", JSON.stringify(todosText));
     localStorage.setItem("checkboxesStorage", JSON.stringify(todosCheckboxes));
   }, [todosText, todosCheckboxes]);
@@ -82,56 +107,20 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     <>
       <ThemeButton></ThemeButton>
       <main className="bg-secondary dark:bg-secondary-dark lg:shadow-lg rounded-lg flex flex-col w-[500px] min-h-[560px] mt-[15vh] mb-[15vh]">
-        <Header addTodo={addTodo} className="row-span-1"></Header>
+        <Header addTodo={addTodo}></Header>
         <section className="row-span-6 flex flex-col items-center py-10 pb-10">
           <ul>
             {todosText.map((value, index) => (
-              <li
+              <Todo
+                todosCheckboxes={todosCheckboxes}
+                updateCheckboxes={updateCheckboxes}
+                editTodo={editTodo}
+                deleteTodo={deleteTodo}
+                editSubmitTodo={editSubmitTodo}
+                value={value}
                 key={index}
-                className={
-                  "h-12 m-2 bg-tertiary w-[80vw] max-w-[400px] min-w-[250px] dark:bg-tertiary-dark rounded-lg shadow flex justify-between"
-                }
-              >
-                <div className="flex items-center w-[100%]">
-                  <input
-                    key={index}
-                    className="hover:cursor-pointer bg-white dark:bg-quaternary appearance-none p-4 rounded-lg ml-2 checked:bg-green-300 dark:checked:bg-[#95CC95]"
-                    type="checkbox"
-                    defaultChecked={todosCheckboxes[index]}
-                    onClick={updateCheckboxes}
-                  />
-                  <div className="p-3 text-[13px] focus:outline-none bg-tertiary dark:bg-tertiary-dark w-[100%]">
-                    {value}
-                  </div>
-                  <input
-                    className="p-3 text-[13px] focus:outline-none bg-tertiary dark:bg-tertiary-dark w-[100%] hidden"
-                    onBlur={(event) => {
-                      editSubmitTodo(event, index);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") {
-                        editSubmitTodo(event, index);
-                      }
-                    }}
-                  />
-                </div>
-                <div className="flex items-center">
-                  <IonIcon
-                    onClick={(event) => {
-                      editTodo(event);
-                    }}
-                    className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
-                    name="pencil"
-                  ></IonIcon>
-                  <IonIcon
-                    onClick={() => {
-                      deleteTodo(index);
-                    }}
-                    className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
-                    name="trash-bin"
-                  ></IonIcon>
-                </div>
-              </li>
+                index={index}
+              ></Todo>
             ))}
           </ul>
         </section>

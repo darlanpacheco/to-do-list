@@ -1,15 +1,10 @@
-import { HeaderProps } from "../interfaces/my-props";
+import { HeaderInterface } from "../interfaces/my-props";
 
-const Header: React.FunctionComponent<HeaderProps> = ({
-  className,
+const Header: React.FunctionComponent<HeaderInterface> = ({
   addTodo,
 }): React.ReactNode => {
   return (
-    <header
-      className={
-        "flex items-center justify-center pt-10" + " " + (className ?? "")
-      }
-    >
+    <header className="flex items-center justify-center pt-10 row-span-1">
       <input
         id="main-input"
         type="text"
