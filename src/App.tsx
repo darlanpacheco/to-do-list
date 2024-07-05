@@ -8,26 +8,17 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     JSON.parse(localStorage.getItem("todosStorage") || "[]")
   );
 
-  const currentDate: number[] = [
-    new Date().getDay(),
-    new Date().getMonth(),
-    new Date().getFullYear(),
-  ];
   const prevDate: number[] = JSON.parse(
-    localStorage.getItem("date") ?? "[0, 0, 0]"
+    localStorage.getItem("date") ?? "[0, 0]"
   );
   const currentBiggerThanPrev = () => {
-    if (currentDate[0] < prevDate[0]) {
+    if (new Date().getDay() !== prevDate[0]) {
       return true;
     } else {
-      if (currentDate[1] < prevDate[1]) {
+      if (new Date().getMonth() !== prevDate[1]) {
         return true;
       } else {
-        if (currentDate[2] < prevDate[2]) {
-          return true;
-        } else {
-          return false;
-        }
+        return false;
       }
     }
   };
@@ -38,7 +29,10 @@ const App: React.FunctionComponent = (): React.ReactNode => {
   );
 
   useEffect(() => {
-    localStorage.setItem("date", JSON.stringify(currentDate));
+    localStorage.setItem(
+      "date",
+      `[${new Date().getDay()}, ${new Date().getMonth()}]`
+    );
     localStorage.setItem("todosStorage", JSON.stringify(todosText));
     localStorage.setItem("checkboxesStorage", JSON.stringify(todosCheckboxes));
   }, [todosText, todosCheckboxes]);
