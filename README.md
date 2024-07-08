@@ -1,4 +1,4 @@
-# Todo list
+# To do list
 
 ## My own todo list, made with Vite + React + TS + Tailwindcss
 
