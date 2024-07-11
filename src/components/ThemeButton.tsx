@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import IonIcon from "@reacticons/ionicons";
 
-// THEME SWITCH BUTTON
-// TODOS SAVE
-
 const ThemeButton: React.FunctionComponent = (): React.ReactNode => {
   const [theme, setTheme] = useState<boolean>(
-    localStorage.getItem("themeStorage") !== "true" ? false : true
+    localStorage.getItem("themeStorage") !== "true" ? false : true,
   );
 
   const themeToggle = () => {

@@ -1,10 +1,10 @@
 export interface TodoInterface {
   editTodo: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  editSubmitTodo: (
+  submitEditTodo: (
     event:
       | React.FocusEvent<HTMLInputElement, Element>
       | React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => void;
   deleteTodo: (index: number) => void;
   index: number;

@@ -3,7 +3,7 @@ import IonIcon from "@reacticons/ionicons";
 
 const Todo: React.FunctionComponent<TodoInterface> = ({
   editTodo,
-  editSubmitTodo,
+  submitEditTodo,
   deleteTodo,
   index,
   value,
@@ -16,7 +16,7 @@ const Todo: React.FunctionComponent<TodoInterface> = ({
         "h-12 m-2 bg-tertiary w-[80vw] max-w-[400px] min-w-[250px] dark:bg-tertiary-dark rounded-lg shadow flex justify-between"
       }
     >
-      <div className="flex items-center w-[100%]">
+      <div className="flex items-center w-[100%] overflow-hidden">
         <input
           className="hover:cursor-pointer bg-white dark:bg-quaternary appearance-none p-4 rounded-lg ml-2 checked:bg-green-300 dark:checked:bg-[#95CC95]"
           type="checkbox"
@@ -29,11 +29,11 @@ const Todo: React.FunctionComponent<TodoInterface> = ({
         <input
           className="p-3 text-[13px] focus:outline-none bg-tertiary dark:bg-tertiary-dark w-[100%] hidden"
           onBlur={(event) => {
-            editSubmitTodo(event, index);
+            submitEditTodo(event, index);
           }}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
-              editSubmitTodo(event, index);
+              submitEditTodo(event, index);
             }
           }}
         />

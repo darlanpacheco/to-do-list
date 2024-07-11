@@ -3,15 +3,20 @@ import Header from "./components/Header";
 import ThemeButton from "./components/ThemeButton";
 import Todo from "./components/Todo";
 
+/*  
+  TODO: fix checkboxes bug
+  TODO: fix todos size bug
+*/
+
 const App: React.FunctionComponent = (): React.ReactNode => {
   const [todosText, setTodosText] = useState<string[]>(
-    JSON.parse(localStorage.getItem("todosStorage") || "[]")
+    JSON.parse(localStorage.getItem("todosStorage") || "[]"),
   );
 
   const prevDate: number[] = JSON.parse(
-    localStorage.getItem("date") ?? "[0, 0]"
+    localStorage.getItem("date") ?? "[0, 0]",
   );
-  const currentBiggerThanPrev = () => {
+  const currentDateBiggerThanPrevDate = () => {
     if (new Date().getDay() !== prevDate[0]) {
       return true;
     } else {
@@ -23,15 +28,15 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     }
   };
   const [todosCheckboxes, setTodosCheckboxes] = useState<boolean[]>(
-    currentBiggerThanPrev()
+    currentDateBiggerThanPrevDate()
       ? new Array(todosText.length).fill(false)
-      : JSON.parse(localStorage.getItem("checkboxesStorage") || "[]")
+      : JSON.parse(localStorage.getItem("checkboxesStorage") || "[]"),
   );
 
   useEffect(() => {
     localStorage.setItem(
       "date",
-      `[${new Date().getDay()}, ${new Date().getMonth()}]`
+      `[${new Date().getDay()}, ${new Date().getMonth()}]`,
     );
     localStorage.setItem("todosStorage", JSON.stringify(todosText));
     localStorage.setItem("checkboxesStorage", JSON.stringify(todosCheckboxes));
@@ -40,7 +45,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
   const updateCheckboxes = () => {
     const tempCheckboxes: boolean[] = [];
     const checkboxElements = document.querySelectorAll(
-      'input[type="checkbox"]'
+      'input[type="checkbox"]',
     );
     checkboxElements.forEach((checkbox) => {
       if (checkbox instanceof HTMLInputElement) {
@@ -52,7 +57,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
 
   const addTodo = () => {
     const input: HTMLInputElement = document.querySelector(
-      "input#main-input"
+      "input#main-input",
     ) as HTMLInputElement;
     if (input.value) {
       setTodosText([...todosText, input.value]);
@@ -71,11 +76,11 @@ const App: React.FunctionComponent = (): React.ReactNode => {
     contentInput.value = contentDiv.innerText;
     contentInput.focus();
   };
-  const editSubmitTodo = (
+  const submitEditTodo = (
     event:
       | React.FocusEvent<HTMLInputElement, Element>
       | React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     const contentInput = event.currentTarget.parentElement?.parentElement
       ?.childNodes[0].childNodes[2] as HTMLInputElement;
@@ -110,7 +115,7 @@ const App: React.FunctionComponent = (): React.ReactNode => {
                 updateCheckboxes={updateCheckboxes}
                 editTodo={editTodo}
                 deleteTodo={deleteTodo}
-                editSubmitTodo={editSubmitTodo}
+                submitEditTodo={submitEditTodo}
                 value={value}
                 key={index}
                 index={index}
