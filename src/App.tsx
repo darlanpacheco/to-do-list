@@ -1,105 +1,45 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import ThemeButton from "./components/ThemeButton";
-import Todo from "./components/Todo";
+import IonIcon from "@reacticons/ionicons";
 
 /*  
   TODO: fix checkboxes bug
-  TODO: fix todos size bug
 */
 
 const App: React.FunctionComponent = (): React.ReactNode => {
-  const [todosText, setTodosText] = useState<string[]>(
-    JSON.parse(localStorage.getItem("todosStorage") || "[]"),
-  );
+  interface idk {
+    text: string;
+    turnedOn: boolean;
+  }
+  const [todos, setTodos] = useState<idk[]>([
+    { text: "fds", turnedOn: false },
+    { text: "asoidfjhas", turnedOn: false },
+    { text: "", turnedOn: true },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+    { text: "", turnedOn: false },
+  ]);
 
-  const prevDate: number[] = JSON.parse(
-    localStorage.getItem("date") ?? "[0, 0]",
-  );
-  const currentDateBiggerThanPrevDate = () => {
-    if (new Date().getDay() !== prevDate[0]) {
-      return true;
-    } else {
-      if (new Date().getMonth() !== prevDate[1]) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
-  const [todosCheckboxes, setTodosCheckboxes] = useState<boolean[]>(
-    currentDateBiggerThanPrevDate()
-      ? new Array(todosText.length).fill(false)
-      : JSON.parse(localStorage.getItem("checkboxesStorage") || "[]"),
-  );
+  const addTodo = () => {};
 
-  useEffect(() => {
-    localStorage.setItem(
-      "date",
-      `[${new Date().getDay()}, ${new Date().getMonth()}]`,
-    );
-    localStorage.setItem("todosStorage", JSON.stringify(todosText));
-    localStorage.setItem("checkboxesStorage", JSON.stringify(todosCheckboxes));
-  }, [todosText, todosCheckboxes]);
+  const editTodo = () => {};
 
-  const updateCheckboxes = () => {
-    const tempCheckboxes: boolean[] = [];
-    const checkboxElements = document.querySelectorAll(
-      'input[type="checkbox"]',
-    );
-    checkboxElements.forEach((checkbox) => {
-      if (checkbox instanceof HTMLInputElement) {
-        tempCheckboxes.push(checkbox.checked);
-      }
-    });
-    setTodosCheckboxes(tempCheckboxes);
-  };
+  const deleteTodo = () => {};
 
-  const addTodo = () => {
-    const input: HTMLInputElement = document.querySelector(
-      "input#main-input",
-    ) as HTMLInputElement;
-    if (input.value) {
-      setTodosText([...todosText, input.value]);
-      input.value = "";
-    }
-  };
+  const updateTodos = (index) => {
+    const inputs = [...document.querySelectorAll('input[type="checkbox"]')];
 
-  const editTodo = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const contentInput = event.currentTarget.parentElement?.parentElement
-      ?.childNodes[0].childNodes[2] as HTMLInputElement;
-    const contentDiv = event.currentTarget.parentElement?.parentElement
-      ?.childNodes[0].childNodes[1] as HTMLDivElement;
-
-    contentDiv.classList.add("hidden");
-    contentInput.classList.remove("hidden");
-    contentInput.value = contentDiv.innerText;
-    contentInput.focus();
-  };
-  const submitEditTodo = (
-    event:
-      | React.FocusEvent<HTMLInputElement, Element>
-      | React.KeyboardEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const contentInput = event.currentTarget.parentElement?.parentElement
-      ?.childNodes[0].childNodes[2] as HTMLInputElement;
-    const contentDiv = event.currentTarget.parentElement?.parentElement
-      ?.childNodes[0].childNodes[1] as HTMLDivElement;
-
-    const tempTodos = [...todosText];
-    tempTodos[index] = contentInput.value;
-    setTodosText(tempTodos);
-
-    contentDiv.innerHTML = contentInput.value;
-    contentDiv.classList.remove("hidden");
-    contentInput.classList.add("hidden");
-  };
-
-  const deleteTodo = (index: number) => {
-    const tempTodos = [...todosText];
-    tempTodos.splice(index, 1);
-    setTodosText(tempTodos);
+    console.log(index);
   };
 
   return (
@@ -109,22 +49,74 @@ const App: React.FunctionComponent = (): React.ReactNode => {
         <Header addTodo={addTodo}></Header>
         <section className="row-span-6 flex flex-col items-center py-10 pb-10">
           <ul>
-            {todosText.map((value, index) => (
-              <Todo
-                todosCheckboxes={todosCheckboxes}
-                updateCheckboxes={updateCheckboxes}
-                editTodo={editTodo}
-                deleteTodo={deleteTodo}
-                submitEditTodo={submitEditTodo}
-                value={value}
-                key={index}
-                index={index}
-              ></Todo>
-            ))}
+            {todos.map((v, i) => {
+              return (
+                <Todo
+                  key={i}
+                  updateTodos={updateTodos}
+                  checked={v.turnedOn}
+                  index={i}
+                >
+                  {v.text}
+                </Todo>
+              );
+            })}
           </ul>
         </section>
       </main>
     </>
+  );
+};
+
+interface babaca {
+  index: number;
+  editTodo: () => void;
+  deleteTodo: () => void;
+  updateTodos: (index) => void;
+  checked: boolean;
+  children: string;
+}
+
+const Todo: React.FunctionComponent<babaca> = ({
+  editTodo,
+  deleteTodo,
+  updateTodos,
+  checked,
+  children,
+}) => {
+  return (
+    <li
+      className={
+        "h-12 m-2 bg-tertiary w-[80vw] max-w-[400px] min-w-[250px] dark:bg-tertiary-dark rounded-lg shadow flex justify-between"
+      }
+    >
+      <div className="flex items-center w-[100%] overflow-hidden">
+        <input
+          className="hover:cursor-pointer bg-white dark:bg-quaternary appearance-none p-4 rounded-lg ml-2 checked:bg-green-300 dark:checked:bg-[#95CC95]"
+          type="checkbox"
+          defaultChecked={checked}
+          onClick={() => {
+            updateTodos(index);
+          }}
+        />
+        <div className="p-3 text-[13px] focus:outline-none bg-tertiary dark:bg-tertiary-dark w-[100%]">
+          {children}
+        </div>
+        <input onBlur={() => {}} onKeyDown={() => {}} />
+      </div>
+      <div className="flex items-center">
+        <IonIcon
+          onClick={editTodo}
+          className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
+          name="pencil"
+        ></IonIcon>
+        <IonIcon
+          onClick={deleteTodo}
+          className="hover:cursor-pointer hover:rounded-lg hover:bg-white dark:hover:bg-quaternary p-4"
+          name="trash-bin"
+        ></IonIcon>
+      </div>
+    </li>
   );
 };
 
